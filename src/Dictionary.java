@@ -1,18 +1,16 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Dictionary {
      private File fileURL = new File("src/words.txt");
      private Map<String, String> dictionary = new HashMap<>();
 
      public Dictionary(){
-          addAWord();
+          addWordsToDictionary();
      }
 
-     private void addAWord(){
+     private void addWordsToDictionary(){
           try {
                Scanner scanner = new Scanner(fileURL);
                while(scanner.hasNextLine()){
@@ -31,6 +29,12 @@ public class Dictionary {
           }
      }
 
+     public String generateRandomWord(){
+          Random random = new Random();
+          List<String> keys = new ArrayList<>(dictionary.keySet());
+          String randomKeys = keys.get(random.nextInt(keys.size()));
+          return randomKeys;
+     }
      public Map<String, String> getDictionary() {
           return this.dictionary;
      }
