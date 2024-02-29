@@ -38,6 +38,7 @@ public class Game {
             while (attemptCount > 0) {
                 System.out.println("Кол-во попыток: " + attemptCount);
                 System.out.println("Попробуйте угадать слово. Введите букву");
+                provideHint();
                 String lettersInput = scanner.next();
                 if (lettersInput.length() == 1 && containsCyrillic(lettersInput)) {
                     char lowerCaseInput = Character.toLowerCase(lettersInput.charAt(0));
@@ -110,6 +111,10 @@ public class Game {
         }
         String encodedWord = new String(charArray);
         return encodedWord;
+    }
+
+    private void provideHint(){
+        System.out.println("Подсказка: " + dictionary.getDictionary().get(originalWord));
     }
 
     private Map<Character, List<Integer>> memorizeEncryptedPositions(){
