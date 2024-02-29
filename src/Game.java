@@ -16,14 +16,12 @@ public class Game {
         while(true){
             String agreement = scanner.nextLine();
             if(agreement.equals("1")){
-                System.out.println("Отлично! Насчём же!");
+                System.out.println("Отлично! Начнём же!");
                 gameRunning = true;
-                return;
-            }
-            if (agreement.equals("2")) {
+                break;
+            } else if (agreement.equals("2")) {
                 System.out.println("Хорошо, давай в следующий раз!");
-                scanner.close();
-                return;
+                break;
             } else {
                 System.out.println("Пожалуйста, выберите один из предложенных вариантов");
             }
@@ -68,10 +66,12 @@ public class Game {
                     }
                     if (validateGuess()) {
                         System.out.println("Поздравляем! Вы отгадали слово: " + originalWord);
+                        gameRunning = false;
                         break;
                     }
                     if (attemptCount == 0) {
                         System.out.println("Вы не отгадали слово. Загаданное слово было: " + originalWord);
+                        gameRunning = false;
                         break;
                     }
                 }else{
@@ -91,10 +91,17 @@ public class Game {
         return false;
     }
     private void offerPlayAgain(){
-        while(gameRunning){
+        while(true) {
             originalWord = dictionary.generateRandomWord();
             guessedLetters.clear();
             launchGame();
+
+            System.out.println("Хотите сыграть ещё раз? (да/нет)");
+            String playAgain = scanner.next().toLowerCase();
+            if (!playAgain.equals("да")) {
+                System.out.println("Спасибо за игру! До свидания!");
+                break;
+            }
         }
     }
 
