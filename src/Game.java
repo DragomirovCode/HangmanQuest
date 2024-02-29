@@ -39,7 +39,7 @@ public class Game {
                 System.out.println("Кол-во попыток: " + attemptCount);
                 System.out.println("Попробуйте угадать слово. Введите букву");
                 String lettersInput = scanner.next();
-                if (lettersInput.length() == 1) {
+                if (lettersInput.length() == 1 && containsCyrillic(lettersInput)) {
                     char lowerCaseInput = Character.toLowerCase(lettersInput.charAt(0));
                     if (!Character.isLetter(lettersInput.charAt(0))) {
                         System.out.println("Можно вводить только буквы");
@@ -74,11 +74,20 @@ public class Game {
                         break;
                     }
                 }else{
-                    System.out.println("Можно вводить только один символ(букву)");
+                    System.out.println("Можно вводить только один символ(букву) и он должен быть на кириллицы");
                 }
             }
             offerPlayAgain();
         }
+    }
+    private boolean containsCyrillic(String word) {
+        for (int i = 0; i < word.length(); i++) {
+            char c = word.charAt(i);
+            if (Character.UnicodeBlock.of(c) == Character.UnicodeBlock.CYRILLIC) {
+                return true;
+            }
+        }
+        return false;
     }
     private void offerPlayAgain(){
         while(gameRunning){
