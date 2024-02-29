@@ -3,7 +3,7 @@ import java.util.*;
 public class Game {
 
     private Dictionary dictionary = new Dictionary();
-
+    private PersonState personState;
     private Scanner scanner = new Scanner(System.in);
     private static boolean gameRunning = false;
     private String originalWord = dictionary.generateRandomWord();
@@ -62,6 +62,8 @@ public class Game {
                     } else {
                         System.out.println("Вы не угадали букву");
                         attemptCount--;
+                        personState = PersonState.getStateByCode(attemptCount);
+                        personState.printMap();
                     }
                     if (validateGuess()) {
                         System.out.println("Поздравляем! Вы отгадали слово: " + originalWord);
