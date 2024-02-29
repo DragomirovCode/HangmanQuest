@@ -97,8 +97,11 @@ public class Game {
             launchGame();
 
             System.out.println("Хотите сыграть ещё раз? (да/нет)");
-            String playAgain = scanner.next().toLowerCase();
-            if (!playAgain.equals("да")) {
+            String playAgain = scanner.nextLine().trim().toLowerCase();
+
+            if (playAgain.equals("да")) {
+                // Продолжаем игру
+            } else if (playAgain.equals("нет")) {
                 System.out.println("Спасибо за игру! До свидания!");
                 break;
             }
