@@ -11,15 +11,16 @@ public class Game {
     private Set<Character> guessedLetters = new HashSet<>();
 
     private void greet(){
-        System.out.println("Привет! давай сыграем?");
-        System.out.println("1 - давай, 2 - нет");
+        System.out.println("Выберите один из предложенных вариантов");
+        System.out.println("1 - играть, 2 - выйти");
         while(true){
             String agreement = scanner.nextLine();
             if(agreement.equals("1")){
                 System.out.println("Отлично! Насчём же!");
                 gameRunning = true;
                 return;
-            } else if (agreement.equals("2")) {
+            }
+            if (agreement.equals("2")) {
                 System.out.println("Хорошо, давай в следующий раз!");
                 scanner.close();
                 return;
@@ -28,47 +29,60 @@ public class Game {
             }
         }
     }
-    public void launchGame(){
+    public void launchGame() {
         greet();
-        if(gameRunning == true){
+        if (gameRunning) {
             String encodedWord = encodeWord(originalWord);
             System.out.println(encodedWord);
             int attemptCount = 5;
-            while(attemptCount > 0){
+            while (attemptCount > 0) {
                 System.out.println("Кол-во попыток: " + attemptCount);
                 System.out.println("Попробуйте угадать слово. Введите букву");
-                char lettersInput = scanner.next().charAt(0);
-                if(!Character.isLetter(lettersInput)){
-                    System.out.println("Пожалуйста, введите букву");
-                    continue;
-                }
-                if(guessedLetters.contains(lettersInput)){
-                    System.out.println("Вы уже вводили эту букву, попробуйте другую");
-                    continue;
-                }else{
-                    guessedLetters.add(lettersInput);
-                }
-                if(memorizeEncryptedPositions().containsKey(lettersInput)){
-                    System.out.println("Вы угадали букву");
-                    for (int i = 0; i < originalWord.length(); i++){
-                        if(originalWord.charAt(i) == lettersInput){
-                            encodedWord = decryptWord(encodedWord, lettersInput, i);
-                        }
+                String lettersInput = scanner.next();
+                if (lettersInput.length() == 1) {
+                    char lowerCaseInput = Character.toLowerCase(lettersInput.charAt(0));
+                    if (!Character.isLetter(lettersInput.charAt(0))) {
+                        System.out.println("Можно вводить только буквы");
+                        continue;
                     }
-                    System.out.println(encodedWord);
+                    if (guessedLetters.contains(lowerCaseInput)) {
+                        System.out.println("Вы уже вводили эту букву, попробуйте другую");
+                        continue;
+                    } else {
+                        guessedLetters.add(lowerCaseInput);
+                    }
+                    if (memorizeEncryptedPositions().containsKey(lowerCaseInput)) {
+                        System.out.println("Вы угадали букву");
+                        for (int i = 0; i < originalWord.length(); i++) {
+                            if (originalWord.charAt(i) == lowerCaseInput) {
+                                encodedWord = decryptWord(encodedWord, lowerCaseInput, i);
+                            }
+                        }
+                        System.out.println(encodedWord);
+                    } else {
+                        System.out.println("Вы не угадали букву");
+                        attemptCount--;
+                    }
+                    if (validateGuess()) {
+                        System.out.println("Поздравляем! Вы отгадали слово: " + originalWord);
+                        break;
+                    }
+                    if (attemptCount == 0) {
+                        System.out.println("Вы не отгадали слово. Загаданное слово было: " + originalWord);
+                        break;
+                    }
                 }else{
-                    System.out.println("Вы не угадали букву");
-                    attemptCount--;
-                }
-                if(validateGuess()){
-                    System.out.println("Поздравляем! Вы отгадали слово: " + originalWord);
-                    break;
-                }
-                if(attemptCount == 0){
-                    System.out.println("Вы не отгадали слово. Загаданное слово было: " + originalWord);
-                    break;
+                    System.out.println("Можно вводить только один символ(букву)");
                 }
             }
+            offerPlayAgain();
+        }
+    }
+    private void offerPlayAgain(){
+        while(gameRunning){
+            originalWord = dictionary.generateRandomWord();
+            guessedLetters.clear();
+            launchGame();
         }
     }
 
