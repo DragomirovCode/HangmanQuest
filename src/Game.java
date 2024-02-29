@@ -103,6 +103,7 @@ public class Game {
                 // Продолжаем игру
             } else if (playAgain.equals("нет")) {
                 System.out.println("Спасибо за игру! До свидания!");
+                scanner.close();
                 break;
             }
         }
