@@ -103,7 +103,6 @@ public class Game {
                 // Продолжаем игру
             } else if (playAgain.equals("нет")) {
                 System.out.println("Спасибо за игру! До свидания!");
-                scanner.close();
                 break;
             }
         }
@@ -132,7 +131,7 @@ public class Game {
         Map<Character, List<Integer>> letterPositions = new HashMap<>();
         for(int i = 0; i < originalWord.length(); i++){
             char letter = originalWord.charAt(i);
-            if(letterPositions.equals(letter)){
+            if(letterPositions.containsKey(letter)){
                 letterPositions.get(letter).add(i);
             }else{
                 List<Integer> positions = new ArrayList<>();
